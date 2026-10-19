@@ -32,7 +32,7 @@ button:active{transform:scale(.98)}
 .primary{background:linear-gradient(135deg,#53f5b2,#20b8b7);color:#042019;border:0;font-weight:900;box-shadow:0 5px 20px #2bf4bb30}
 .row{display:flex;gap:8px;align-items:center}
 .row>*{flex:1;min-width:0}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dpad{display:grid;grid-template-columns:repeat(3,minmax(0,76px));grid-template-rows:repeat(2,58px);gap:8px;justify-content:center;align-items:center;padding:4px 0}.dpad button{font-size:25px;font-weight:900;padding:0;min-height:54px;border-radius:15px;box-shadow:0 5px 14px #0004;user-select:none;-webkit-user-select:none}.dpad button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}.dpad .up{grid-column:2;grid-row:1}.dpad .left{grid-column:1;grid-row:2}.dpad .down{grid-column:2;grid-row:2}.dpad .right{grid-column:3;grid-row:2}.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .settings{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .setting{display:flex;flex-direction:column;gap:6px;background:#0b1a29;border:1px solid var(--line);border-radius:13px;padding:10px}
 .setting label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
@@ -61,11 +61,18 @@ footer{text-align:center;color:#6f8da4;font-size:11px;padding:2px 0 8px}
     <div class="overlay" id="overlay">
       <div class="overlay-card">
         <h1 id="overlayTitle">NEON<br>SNAKE</h1>
-        <p id="overlayText">Swipe anywhere on the board to steer. Eat the energy orbs, grow longer and avoid the walls and your tail.</p>
+        <p id="overlayText">Use the arrow buttons below the board to steer. Eat energy orbs, grow longer and avoid the walls and your tail.</p>
         <button class="primary" id="startBtn">▶ PLAY GAME</button>
       </div>
     </div>
   </section>
+  <section class="dpad" aria-label="Directional controls">
+    <button class="up" data-dir="up" aria-label="Move up" title="Up">▲</button>
+    <button class="left" data-dir="left" aria-label="Move left" title="Left">◀</button>
+    <button class="down" data-dir="down" aria-label="Move down" title="Down">▼</button>
+    <button class="right" data-dir="right" aria-label="Move right" title="Right">▶</button>
+  </section>
+  <div class="hint">Tap the arrow buttons to steer. You can also use your keyboard arrow keys on a computer.</div>
   <section class="controls">
     <button id="pauseBtn">Ⅱ Pause</button>
     <button id="restartBtn">↻ Restart</button>
@@ -84,7 +91,7 @@ footer{text-align:center;color:#6f8da4;font-size:11px;padding:2px 0 8px}
       <select id="sound"><option value="on">On</option><option value="off">Off</option></select>
     </div>
   </section>
-  <div class="hint">👆 Swipe on the board to change direction · Collect orbs to level up<br>✨ Purple bonus orbs give +30 points and disappear after a few seconds.<br>Tip: You cannot instantly reverse into your own body.</div>
+  <div class="hint">✨ Collect orbs to level up. Purple bonus orbs give +30 points and disappear after a few seconds.<br>Tip: You cannot instantly reverse into your own body.</div>
   <div class="ad-slot" aria-label="Advertisement placeholder">ADVERTISEMENT SPACE<br><span>Ad placement preview only — no ads are running yet.</span></div>
   <div class="site-links">Before applying for ads, add Privacy Policy, About and Contact pages.</div>
   <footer>NEON SNAKE 3D · Works offline · Best score saved on this device</footer>
@@ -109,7 +116,7 @@ $('best').textContent=best;
 function reset(){
  snake=[{x:9,y:10},{x:8,y:10},{x:7,y:10},{x:6,y:10}];
  dir={x:1,y:0};nextDir={x:1,y:0};score=0;level=1;active=false;paused=false;gameOver=false;accum=0;
- spawnFood();powerUp=null;powerUpUntil=0;updateStats();draw();showOverlay('NEON<br>SNAKE','Swipe anywhere on the board to steer. Eat the energy orbs, grow longer and avoid the walls and your tail.','▶ PLAY GAME');
+ spawnFood();powerUp=null;powerUpUntil=0;updateStats();draw();showOverlay('NEON<br>SNAKE','Use the arrow buttons below the board to steer. Eat energy orbs, grow longer and avoid the walls and your tail.','▶ PLAY GAME');
  $('pauseBtn').textContent='Ⅱ Pause';
 }
 function spawnFood(){
@@ -229,14 +236,13 @@ $('pauseBtn').addEventListener('click',togglePause);
 $('restartBtn').addEventListener('click',()=>{reset();start()});
 $('skin').addEventListener('change',draw);
 $('sound').addEventListener('change',()=>{if($('sound').value==='on')playTone(520,.05)});
-canvas.addEventListener('pointerdown',e=>{touchStart={x:e.clientX,y:e.clientY};e.preventDefault()},{passive:false});
-canvas.addEventListener('pointerup',e=>{
- if(!touchStart)return;const dx=e.clientX-touchStart.x,dy=e.clientY-touchStart.y;touchStart=null;
- if(Math.hypot(dx,dy)<16){if(!active||paused){if(paused){paused=false;hideOverlay();$('pauseBtn').textContent='Ⅱ Pause'}else start()}return}
- if(Math.abs(dx)>Math.abs(dy))setDirection(dx>0?1:-1,0);else setDirection(0,dy>0?1:-1);
- e.preventDefault();
-},{passive:false});
-canvas.addEventListener('pointercancel',()=>touchStart=null);
+document.querySelectorAll('.dpad [data-dir]').forEach(button=>{
+ button.addEventListener('click',()=>{
+   const directions={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+   const direction=directions[button.dataset.dir];
+   if(direction)setDirection(direction[0],direction[1]);
+ });
+});
 document.addEventListener('keydown',e=>{
  const map={ArrowUp:[0,-1],w:[0,-1],ArrowDown:[0,1],s:[0,1],ArrowLeft:[-1,0],a:[-1,0],ArrowRight:[1,0],d:[1,0]};
  if(map[e.key]){e.preventDefault();setDirection(...map[e.key])}
