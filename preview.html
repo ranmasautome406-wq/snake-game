@@ -32,7 +32,7 @@ button:active{transform:scale(.98)}
 .primary{background:linear-gradient(135deg,#53f5b2,#20b8b7);color:#042019;border:0;font-weight:900;box-shadow:0 5px 20px #2bf4bb30}
 .row{display:flex;gap:8px;align-items:center}
 .row>*{flex:1;min-width:0}
-.dpad{display:grid;grid-template-columns:repeat(3,minmax(0,76px));grid-template-rows:repeat(2,58px);gap:8px;justify-content:center;align-items:center;padding:4px 0}.dpad button{font-size:25px;font-weight:900;padding:0;min-height:54px;border-radius:15px;box-shadow:0 5px 14px #0004;user-select:none;-webkit-user-select:none}.dpad button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}.dpad .up{grid-column:2;grid-row:1}.dpad .left{grid-column:1;grid-row:2}.dpad .down{grid-column:2;grid-row:2}.dpad .right{grid-column:3;grid-row:2}.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dpad{display:grid;grid-template-columns:repeat(3,minmax(0,82px));grid-template-rows:repeat(3,68px);gap:7px;justify-content:center;align-items:center;padding:8px 0;margin:0 auto;width:100%;max-width:290px;touch-action:manipulation}.dpad button{font-size:28px;font-weight:900;padding:0;min-height:64px;min-width:64px;border-radius:18px;box-shadow:0 5px 14px #0005,inset 0 1px 0 #ffffff18;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;background:linear-gradient(145deg,#20445f,#102337);border:2px solid #3b7188}.dpad button:active{background:linear-gradient(145deg,#52f7b5,#20b8b7);color:#042019;transform:scale(.95)}.dpad button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}.dpad .up{grid-column:2;grid-row:1}.dpad .left{grid-column:1;grid-row:2}.dpad .down{grid-column:2;grid-row:3}.dpad .right{grid-column:3;grid-row:2}.dpad .center{grid-column:2;grid-row:2;display:flex;align-items:center;justify-content:center;border-radius:16px;color:#52f7b5;font-size:20px;opacity:.85;pointer-events:none}.dpad button span{display:block;font-size:10px;letter-spacing:.08em;line-height:1;margin-top:1px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .settings{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .setting{display:flex;flex-direction:column;gap:6px;background:#0b1a29;border:1px solid var(--line);border-radius:13px;padding:10px}
 .setting label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
@@ -66,13 +66,14 @@ footer{text-align:center;color:#6f8da4;font-size:11px;padding:2px 0 8px}
       </div>
     </div>
   </section>
-  <section class="dpad" aria-label="Directional controls">
-    <button class="up" data-dir="up" aria-label="Move up" title="Up">▲</button>
-    <button class="left" data-dir="left" aria-label="Move left" title="Left">◀</button>
-    <button class="down" data-dir="down" aria-label="Move down" title="Down">▼</button>
-    <button class="right" data-dir="right" aria-label="Move right" title="Right">▶</button>
+  <section class="dpad" aria-label="On-screen directional buttons">
+    <button class="up" data-dir="up" aria-label="Move up" title="Up">▲<span>UP</span></button>
+    <button class="left" data-dir="left" aria-label="Move left" title="Left">◀<span>LEFT</span></button>
+    <div class="center" aria-hidden="true">✦</div>
+    <button class="down" data-dir="down" aria-label="Move down" title="Down">▼<span>DOWN</span></button>
+    <button class="right" data-dir="right" aria-label="Move right" title="Right">▶<span>RIGHT</span></button>
   </section>
-  <div class="hint">Tap the arrow buttons to steer. You can also use your keyboard arrow keys on a computer.</div>
+  <div class="hint">Use the big UP, DOWN, LEFT and RIGHT buttons to control the Snake. Swiping is not required.</div>
   <section class="controls">
     <button id="pauseBtn">Ⅱ Pause</button>
     <button id="restartBtn">↻ Restart</button>
