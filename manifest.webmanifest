@@ -1,31 +1,27 @@
 {
-  "id": "./preview.html",
+  "id": "/snake-game/",
   "name": "Neon Snake 3D",
   "short_name": "Neon Snake",
-  "description": "A mobile-friendly neon Snake game with on-screen direction buttons.",
-  "lang": "en",
-  "start_url": "./preview.html",
-  "scope": "./",
+  "description": "A fun neon-style snake game for Android.",
+  "start_url": "/snake-game/",
+  "scope": "/snake-game/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#07111d",
-  "theme_color": "#07111d",
-  "categories": [
-    "games",
-    "entertainment"
-  ],
+  "background_color": "#07111D",
+  "theme_color": "#07111D",
   "icons": [
     {
-      "src": "./icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./icon-512.png",
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     }
-  ]
+  ],
+  "lang": "en"
 }
